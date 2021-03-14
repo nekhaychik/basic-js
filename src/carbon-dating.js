@@ -4,18 +4,14 @@ const MODERN_ACTIVITY= 15;
 const HALF_LIFE_PERIOD= 5730;
 
 module.exports = function dateSample(str) {
-  if(typeof str != 'string' || str === undefined || str.length == 0)
-  return false;
+  let num = parseFloat(str);
+
+  if (typeof(str) != "string" || isNaN(num) || num <= 0 || num > MODERN_ACTIVITY)
+      return false;
+
+  let a =  MODERN_ACTIVITY / num;
+  let k = 0.693 / HALF_LIFE_PERIOD;
+  let t = Math.log(a) / k;
   
-  let n = +str;
-
-  if(isNaN(n) || typeof n != 'number')
-    return false;
-  if(n >= 9000 || n <= 0)
-    return false;
-  if(Math.trunc(n) != n && Math.trunc(n) >= 15)
-    return false;
-
-  let result = Math.log(MODERN_ACTIVITY/n)/HALF_LIFE_PERIOD*Math.log(2);
-  return result;
+  return Math.ceil(t);
 };
